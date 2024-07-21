@@ -4,8 +4,7 @@ import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loade
 import Map from "react-map-gl";
 import DropArea from "./DropArea";
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoia2FydGhpazIzMTAiLCJhIjoiY2x5dnFzbGZnMTQ0MDJpcjRhOWY1ZTdyOSJ9.IhA833_l7FkNJeKeggnUGA";
+mapboxgl.accessToken = import.meta.env.VITE_MAP_KEY;
 
 const activityData = [
   {
