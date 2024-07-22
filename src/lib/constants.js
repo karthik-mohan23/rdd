@@ -1,7 +1,6 @@
 const locations = [
   { key: "operaHouse", location: { lat: -33.8567844, lng: 151.213108 } },
   { key: "tarongaZoo", location: { lat: -33.8472767, lng: 151.2188164 } },
-  { key: "manlyBeach", location: { lat: -33.8209738, lng: 151.2563253 } },
   { key: "hyderPark", location: { lat: -33.8690081, lng: 151.2052393 } },
   { key: "theRocks", location: { lat: -33.8587568, lng: 151.2058246 } },
   { key: "circularQuay", location: { lat: -33.858761, lng: 151.2055688 } },
@@ -15,3 +14,30 @@ const locations = [
   { key: "darlingHarbour", location: { lat: -33.87488, lng: 151.1987113 } },
   { key: "barangaroo", location: { lat: -33.8605523, lng: 151.1972205 } },
 ];
+
+export function getFormattedDate() {
+  const date = new Date();
+
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const dayName = days[date.getDay()];
+  const day = date.getDate();
+  const monthName = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${dayName} ${day} ${monthName} ${year}`;
+}

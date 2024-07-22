@@ -18,7 +18,7 @@ function ActivityCard({
       draggable
       onDragStart={(e) => onDragStart(e, id)}
       onDragEnd={onDragEnd}
-      className="bg-white drop-shadow-md text-slate-800 w-[280px] pb-2 rounded-sm hover:drop-shadow-xl flex flex-col gap-2 cursor-pointer p-2">
+      className="bg-white drop-shadow-md text-slate-800 w-[280px] rounded-sm hover:drop-shadow-xl flex flex-col gap-2 cursor-pointer p-2">
       {/* blue container */}
       <div className="bg-cyan-200 flex items-center justify-between p-2">
         <div className="">
@@ -34,19 +34,19 @@ function ActivityCard({
         )}
       </div>
       {/* location */}
-      <div className="px-1 text-slate-500 bg-slate-100/80 flex gap-1 items-center">
+      <div className="px-1 text-slate-500 bg-slate-100/80 flex items-center gap-1">
         <MapPin size={16} />
-        <p>{place.key}</p>
+        <p className="mb-0">{place.key}</p>
       </div>
       {/* time */}
-      <div className="flex justify-between px-1">
+      <div className="flex justify-between items-center px-1">
         <div className="flex gap-1 items-center">
           <AlarmClock size={16} />
-          <p>{startTime}</p>
+          <p className="mb-0">{startTime}</p>
         </div>
         <div className="flex gap-1 items-center">
           <Clock size={16} />
-          <p>{duration}</p>
+          <p className="mb-0">{duration}</p>
         </div>
       </div>
     </div>

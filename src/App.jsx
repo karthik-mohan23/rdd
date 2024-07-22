@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import Day from "./pages/day";
 
 function App() {

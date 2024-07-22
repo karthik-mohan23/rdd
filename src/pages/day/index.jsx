@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ActivityCard from "./ActivityCard";
 import DropArea from "./DropArea";
 import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import AddActivity from "./AddActivity";
+import { getFormattedDate } from "../../lib/constants";
 
 const activityData = [
   {
@@ -56,6 +58,29 @@ function PoiMarkers({ locations }) {
 function Day() {
   const [activities, setActivities] = useState(activityData);
   const [activeCard, setActiveCard] = useState(null);
+  const handleAddAssignedActivities = (
+    title,
+    destination,
+    latitude,
+    longitude
+  ) => {
+    const updatedArr = [
+      ...activities,
+      {
+        id: Date.now(),
+        title,
+        startTime: "5:00 AM",
+        duration: "30 min",
+        category: "assigned",
+        place: {
+          key: destination,
+          location: { lat: latitude, lng: longitude },
+        },
+      },
+    ];
+
+    setActivities(updatedArr);
+  };
 
   const assignedActivities = activities.filter(
     (card) => card.category === "assigned"
@@ -103,12 +128,15 @@ function Day() {
   };
 
   return (
-    <section>
-      <div className="flex divide-x w-[90%] mx-auto overscroll-x-none">
-        <div className="w-[33.33%] h-screen overscroll-y-auto px-8 pt-5">
-          <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-5">
-            Assigned Tasks
+    <section className="h-screen overflow-hidden">
+      <div className="flex  w-[90%] mx-auto mx-auto h-full">
+        <div className="w-[33.33%] h-full overflow-y-auto px-8 pt-5">
+          <h2 className="text-slate-700 font-medium text-xl  pb-2 text-center ">
+            {getFormattedDate()}
           </h2>
+          <AddActivity
+            handleAddAssignedActivities={handleAddAssignedActivities}
+          />
           <div className="space-y-5 h-full">
             <DropArea onDrop={onDrop} status="assigned" position={0} />
             {assignedActivities.map((item, index) => (
@@ -130,7 +158,7 @@ function Day() {
             ))}
           </div>
         </div>
-        <div className="w-[33.33%] md:block hidden h-screen overscroll-y-auto px-8 pt-5">
+        <div className="w-[33.33%] md:block hidden h-full overflow-y-auto px-8 pt-5">
           <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-5">
             Unassigned Tasks
           </h2>
@@ -156,7 +184,7 @@ function Day() {
           </div>
         </div>
 
-        <div className="w-[33.33%] py-5">
+        <div className="w-[33.33%] h-full py-5 px-8">
           <APIProvider apiKey={import.meta.env.VITE_MAP_KEY}>
             <Map
               defaultZoom={13}
