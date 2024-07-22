@@ -6,12 +6,12 @@ function ActivityCard({
   id,
   title,
   index,
-  location,
   startTime,
   duration,
   onDragStart,
   onDragEnd,
   category,
+  place,
 }) {
   return (
     <div
@@ -36,7 +36,7 @@ function ActivityCard({
       {/* location */}
       <div className="px-1 text-slate-500 bg-slate-100/80 flex gap-1 items-center">
         <MapPin size={16} />
-        <p>{location}</p>
+        <p>{place.key}</p>
       </div>
       {/* time */}
       <div className="flex justify-between px-1">

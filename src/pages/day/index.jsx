@@ -1,37 +1,57 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import ActivityCard from "./ActivityCard";
-import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import Map from "react-map-gl";
 import DropArea from "./DropArea";
-
-mapboxgl.accessToken = import.meta.env.VITE_MAP_KEY;
+import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 
 const activityData = [
   {
     id: 1,
     title: "Trekking",
-    location: "Manali",
     startTime: "4:00 AM",
     duration: "2h",
     category: "assigned",
+    place: {
+      key: "operaHouse",
+      location: { lat: -33.8567844, lng: 151.213108 },
+    },
   },
   {
     id: 2,
     title: "Boating",
-    location: "Manali",
     startTime: "2:00 AM",
     duration: "1h",
     category: "unassigned",
+    place: {
+      key: "tarongaZoo",
+      location: { lat: -33.8472767, lng: 151.2188164 },
+    },
   },
   {
     id: 3,
     title: "Swimming",
-    location: "Manali",
     startTime: "5:00 AM",
     duration: "30 min",
     category: "assigned",
+    place: {
+      key: "hyderPark",
+      location: { lat: -33.8690081, lng: 151.2052393 },
+    },
   },
 ];
+
+function PoiMarkers({ locations }) {
+  return (
+    <>
+      {locations.map((poi, index) => (
+        <AdvancedMarker key={poi.key} position={poi.location}>
+          <div className="bg-cyan-200 rounded-full w-10 h-10 border-4 flex justify-center items-center border-black">
+            {index + 1}
+          </div>
+        </AdvancedMarker>
+      ))}
+    </>
+  );
+}
 
 function Day() {
   const [activities, setActivities] = useState(activityData);
@@ -44,27 +64,7 @@ function Day() {
     (card) => card.category === "unassigned"
   );
 
-  // map
-  const [viewState, setViewState] = useState({
-    longitude: -100,
-    latitude: 40,
-    zoom: 3.5,
-  });
-  // const mapContainer = useRef(null);
-  // const map = useRef(null);
-  // const [lng, setLng] = useState(-70.9);
-  // const [lat, setLat] = useState(42.35);
-  // const [zoom, setZoom] = useState(9);
-
-  // useEffect(() => {
-  //   if (map.current) return; // initialize map only once
-  //   map.current = new mapboxgl.Map({
-  //     container: mapContainer.current,
-  //     style: "mapbox://styles/mapbox/streets-v12",
-  //     center: [lng, lat],
-  //     zoom: zoom,
-  //   });
-  // });
+  const locationsArr = assignedActivities.map((activity) => activity.place);
 
   const onDrop = (status, position) => {
     console.log(
@@ -105,7 +105,7 @@ function Day() {
   return (
     <section>
       <div className="flex divide-x w-[90%] mx-auto overscroll-x-none">
-        <div className="flex-grow h-screen overscroll-y-auto px-8 pt-5">
+        <div className="w-[33.33%] h-screen overscroll-y-auto px-8 pt-5">
           <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-5">
             Assigned Tasks
           </h2>
@@ -130,7 +130,7 @@ function Day() {
             ))}
           </div>
         </div>
-        <div className="flex-grow md:block hidden h-screen overscroll-y-auto px-8 pt-5">
+        <div className="w-[33.33%] md:block hidden h-screen overscroll-y-auto px-8 pt-5">
           <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-5">
             Unassigned Tasks
           </h2>
@@ -155,21 +155,25 @@ function Day() {
             ))}
           </div>
         </div>
-        <Map
-          mapboxAccessToken="pk.eyJ1Ijoia2FydGhpazIzMTAiLCJhIjoiY2x5dnFzbGZnMTQ0MDJpcjRhOWY1ZTdyOSJ9.IhA833_l7FkNJeKeggnUGA"
-          initialViewState={{
-            longitude: -122.4,
-            latitude: 37.8,
-            zoom: 14,
-          }}
-          style={{ width: 600, height: 400 }}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-          {...viewState}
-          onMove={(evt) => setViewState(evt.viewState)}
-        />
-        {/* <div
-          ref={mapContainer}
-          className=" hidden xl:block h-[85vh]   px-8 py-5 "></div> */}
+
+        <div className="w-[33.33%]">
+          <APIProvider apiKey={import.meta.env.VITE_MAP_KEY}>
+            <Map
+              defaultZoom={13}
+              defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
+              mapId={import.meta.env.VITE_MAP_ID}
+              onCameraChanged={(ev) =>
+                console.log(
+                  "camera changed:",
+                  ev.detail.center,
+                  "zoom:",
+                  ev.detail.zoom
+                )
+              }>
+              <PoiMarkers locations={locationsArr} />
+            </Map>
+          </APIProvider>
+        </div>
       </div>
     </section>
   );
