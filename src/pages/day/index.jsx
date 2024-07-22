@@ -156,7 +156,7 @@ function Day() {
           </div>
         </div>
 
-        <div className="w-[33.33%]">
+        <div className="w-[33.33%] py-5">
           <APIProvider apiKey={import.meta.env.VITE_MAP_KEY}>
             <Map
               defaultZoom={13}
