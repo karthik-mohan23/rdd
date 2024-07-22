@@ -18,7 +18,7 @@ function ActivityCard({
       draggable
       onDragStart={(e) => onDragStart(e, id)}
       onDragEnd={onDragEnd}
-      className="bg-white drop-shadow-md text-slate-800 w-[280px] rounded-sm hover:drop-shadow-xl flex flex-col gap-2 cursor-pointer p-2">
+      className="bg-white drop-shadow-md text-slate-800 max-w-[280px] rounded-sm hover:drop-shadow-xl flex flex-col gap-2 cursor-pointer p-2">
       {/* blue container */}
       <div className="bg-cyan-200 flex items-center justify-between p-2">
         <div className="">

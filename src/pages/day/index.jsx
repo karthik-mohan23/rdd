@@ -62,7 +62,8 @@ function Day() {
     title,
     destination,
     latitude,
-    longitude
+    longitude,
+    category
   ) => {
     const updatedArr = [
       ...activities,
@@ -71,7 +72,7 @@ function Day() {
         title,
         startTime: "5:00 AM",
         duration: "30 min",
-        category: "assigned",
+        category,
         place: {
           key: destination,
           location: { lat: latitude, lng: longitude },
@@ -129,13 +130,14 @@ function Day() {
 
   return (
     <section className="h-screen overflow-hidden">
-      <div className="flex  w-[90%] mx-auto mx-auto h-full">
-        <div className="w-[33.33%] h-full overflow-y-auto px-8 pt-5">
+      <div className="flex  w-[90%] mx-auto  h-full">
+        <div className=" w-full md:w-[50%] xl:w-[33.33%] h-full overflow-y-auto px-8 pt-5">
           <h2 className="text-slate-700 font-medium text-xl  pb-2 text-center ">
             {getFormattedDate()}
           </h2>
           <AddActivity
             handleAddAssignedActivities={handleAddAssignedActivities}
+            category="assigned"
           />
           <div className="space-y-5 h-full">
             <DropArea onDrop={onDrop} status="assigned" position={0} />
@@ -158,10 +160,14 @@ function Day() {
             ))}
           </div>
         </div>
-        <div className="w-[33.33%] md:block hidden h-full overflow-y-auto px-8 pt-5">
-          <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-5">
+        <div className=" md:w-[50%] xl:w-[33.33%] md:block hidden h-full overflow-y-auto px-8 pt-5">
+          <h2 className="text-slate-700 font-medium text-xl tracking-widest pb-2 text-center">
             Unassigned Tasks
           </h2>
+          <AddActivity
+            handleAddAssignedActivities={handleAddAssignedActivities}
+            category="unassigned"
+          />
           <div className="space-y-5 h-full">
             <DropArea onDrop={onDrop} status="unassigned" position={0} />
             {unassignedActivities.map((item, index) => (
@@ -183,8 +189,7 @@ function Day() {
             ))}
           </div>
         </div>
-
-        <div className="w-[33.33%] h-full py-5 px-8">
+        <div className="hidden xl:block xl:w-[33.33%] h-full py-5 px-8">
           <APIProvider apiKey={import.meta.env.VITE_MAP_KEY}>
             <Map
               defaultZoom={13}

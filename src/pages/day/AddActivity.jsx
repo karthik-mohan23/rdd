@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function AddActivity({ handleAddAssignedActivities }) {
+function AddActivity({ handleAddAssignedActivities, category }) {
   const [show, setShow] = useState(false);
   const [activityName, setActivityName] = useState("");
   const [destination, setDestination] = useState("");
@@ -18,7 +18,8 @@ function AddActivity({ handleAddAssignedActivities }) {
       activityName,
       destination,
       parseFloat(latitude),
-      parseFloat(longitude)
+      parseFloat(longitude),
+      category
     );
     // Reset form fields
     setDestination("");
